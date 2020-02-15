@@ -12,23 +12,9 @@
       <source :src="musicSrc" type="audio/mpeg">
     </audio>
 
-    <!-- 正确音乐 -->
-    <audio id="correctAudio">
-      <source :src="correctAudio" type="audio/mpeg">
-    </audio>
-    <!-- 错误音乐 -->
-    <audio id="errorAudio">
-      <source :src="errorAudio" type="audio/mpeg">
-    </audio>
-
-    <!-- 转盘音乐 -->
-    <audio id="luckAudio">
-      <source :src="luckAudio" type="audio/mpeg">
-    </audio>
-
-    <!-- 中奖音乐 -->
-    <audio id="turnAudio">
-      <source :src="turnAudio" type="audio/mpeg">
+    <!-- 其他操作音乐 -->
+    <audio id="setAudioPlay">
+      <source src="" type="audio/mpeg">
     </audio>
   </div>
 </template>
@@ -44,10 +30,6 @@ export default {
   data () {
     return {
       musicSrc: this.$fileUrl + require('./assets/audio/piano.mp3'),
-      errorAudio: this.$fileUrl + require('./assets/audio/error.mp3'),
-      correctAudio: this.$fileUrl + require('./assets/audio/correct.mp3'),
-      luckAudio: this.$fileUrl + require('./assets/audio/luck.mp3'),
-      turnAudio: this.$fileUrl + require('./assets/audio/turn.mp3'),
       isPlay: true, // 是否播放
       isView: true,
       domAudio: null,

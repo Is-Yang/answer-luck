@@ -75,6 +75,8 @@ export default {
             // 用户选择的答案
             answerArr: [],
             qNum: 0 ,// 题目数量
+            errorAudio: this.$fileUrl + require('../assets/audio/error.mp3'),
+            correctAudio: this.$fileUrl + require('../assets/audio/correct.mp3'),
         }
     },
     created() {
@@ -96,11 +98,11 @@ export default {
             this.isClick = false;
             let answer = this.questionList[this.current].answer;
             if (value == answer) {
-                this.playAudio('correct');
+                this.playAudio(this.correctAudio);
                 this.errorValue = '';
                 this.correctValue = answer;
             } else {
-                this.playAudio('error');
+                this.playAudio(this.errorAudio);
                 this.correctValue = answer;
                 this.errorValue = value;
             }

@@ -23,19 +23,9 @@ Vue.prototype.$fileUrl = fileUrl;
 Vue.prototype.$request = request;
 // 音频播放
 Vue.prototype.playAudio = (audio) => {
-    if (audio == 'error') {
-        let playAudio = document.getElementById('errorAudio');
-        playAudio.play();
-    } else if (audio == 'correct') {
-        let playAudio = document.getElementById('correctAudio');
-        playAudio.play();
-    } else if (audio == 'luckAudio') {
-        let playAudio = document.getElementById('luckAudio');
-        playAudio.play();
-    } else if (audio == 'turnAudio') {
-        let playAudio = document.getElementById('turnAudio');
-        playAudio.play();
-    }
+    let playAudio = document.getElementById('setAudioPlay');
+    playAudio.setAttribute('src', audio);
+    playAudio.play();
 }
 Vue.config.productionTip = false
 

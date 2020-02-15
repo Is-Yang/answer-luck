@@ -89,6 +89,12 @@ export default {
         }
     },
     created() {
+        let link = window.location.href.split("?")[0];
+        if(link !== window.location.href){
+            window.location.href = link;
+        }
+        this.init();
+        
         this.$eventHub.$emit('loading', true);
         setTimeout(() => {
             this.$eventHub.$emit('loading', false);
@@ -98,6 +104,15 @@ export default {
         this.getLuckNum();
     },
     methods: {
+        async init() {
+            // 分享页面初始化
+            let result = await this.sharePage();
+            if(result == 100) {
+                this.$request.get(this.$host + 'shareGains').then((res) => {
+                    console.log(res);
+                })
+            }
+        },
         // async initWelcome() {
         //     return this.$request.get(this.$host + 'welcome').then((res) => {
         //         return res.data;
@@ -142,7 +157,6 @@ export default {
                 let url = 'http://gfwp.gac-toyota.com.cn/GTMCfamily/index.php/campaign/api2/getjssdk?url=' + window.location.href;
                 this.$request.get(url).then((res) => {
                     if (res.status == 100) {
-                        this.$toast('请点击右上角去分享');
 
                         wx.config({
                             debug: false,
@@ -159,8 +173,8 @@ export default {
                                 desc: '抵抗疫情, 我们都是第一责任人',
                                 // dataUrl: '',
                                 // type: 'link',
-                                imgUrl: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/demo/img/share.jpg',
-                                link: location.href.split('#')[0]
+                                imgUrl: this.$fileUrl + require('../assets/images/shareImg.jpg'),
+                                link: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp/#/index'
                             };
 
                             console.log(shareInfo);
@@ -170,10 +184,15 @@ export default {
                                 title: shareInfo.title,
                                 link: shareInfo.link,
                                 imgUrl: shareInfo.imgUrl,
-                                success: ()=> { 
+                                success: (res)=> { 
+                                    console.log(res);
                                     resolve(100);
                                 },
-                                cancel: ()=> { 
+                                cancel: (res)=> { 
+                                    console.log(res);
+                                },
+                                fail: (err)=> {
+                                    console.log(err);
                                     console.log('分享失败')
                                 }
                             });
@@ -183,10 +202,15 @@ export default {
                                 link: shareInfo.link,
                                 imgUrl: shareInfo.imgUrl,
                                 desc: shareInfo.desc,
-                                success: ()=> { 
+                                success: (res)=> { 
+                                    console.log(res);
                                     resolve(100);
                                 },
-                                cancel: ()=> { 
+                                cancel: (res)=> { 
+                                    console.log(res);
+                                },
+                                fail: (err)=> {
+                                    console.log(err);
                                     console.log('分享失败')
                                 }
                             });
@@ -200,13 +224,8 @@ export default {
             })
         },
         // 获取分享机会
-        async getShareGains() {
-            let result = await this.sharePage();
-            if(result == 100) {
-                this.$request.get(this.$host + 'shareGains').then((res) => {
-                    console.log(res);
-                })
-            }
+        getShareGains() {
+            this.$toast('请点击右上角去分享');
         },
         toAnswer() {
             if (this.luckNum > 0) {

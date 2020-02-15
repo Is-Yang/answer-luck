@@ -42,7 +42,8 @@ export default {
             deg: 0, // 度数
             rewardCount: 1,
             turntableImage: this.$fileUrl + require('../assets/images/turntable.png'),
-            // pointImage: this.$fileUrl + require('../assets/images/point.png'),
+            luckAudio: this.$fileUrl + require('../assets/audio/luck.mp3'),
+            turnAudio: this.$fileUrl + require('../assets/audio/turn.mp3')
         }
     },
     methods: {
@@ -50,7 +51,6 @@ export default {
             return new Promise((resolve, reject) => {
                 this.$request.get(this.$host + 'lottery').then((res) => {
                     if (res.code == "011502") {
-                        // this.$toast.fail(res.message);
                         this.$toast.fail('请分享赢得更多答题机会');
                         this.isAllowClick = false;
                         this.rewardCount = 0;
@@ -66,7 +66,7 @@ export default {
         async luckyHandle() {
             let result = await this.getLottery();
             let data = result.data;
-            this.playAudio('turnAudio');
+            this.playAudio(this.turnAudio);
             
             if (!this.isAllowClick) return;
             this.isAllowClick = false;
@@ -134,7 +134,7 @@ export default {
                 this.flag = true;
 
                 setTimeout(() => {
-                    this.playAudio('luckAudio');
+                    this.playAudio(this.luckAudio);
                     this.prizeShow = true;
                 }, 3600);
             }
