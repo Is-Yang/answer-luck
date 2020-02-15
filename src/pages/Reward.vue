@@ -50,7 +50,8 @@ export default {
             return new Promise((resolve, reject) => {
                 this.$request.get(this.$host + 'lottery').then((res) => {
                     if (res.code == "011502") {
-                        this.$toast.fail(res.message);
+                        // this.$toast.fail(res.message);
+                        this.$toast.fail('请分享赢得更多答题机会');
                         this.isAllowClick = false;
                         this.rewardCount = 0;
                         return;

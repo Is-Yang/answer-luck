@@ -150,18 +150,20 @@ export default {
                             timestamp: res.timeStamp, 
                             nonceStr: res.nonceStr,
                             signature: res.signature,
-                            jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"] 
+                            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] 
                         });　
 
                         wx.ready(() => {
                             let shareInfo = {
                                 title: 'G司返岗小测试',
-                                desc: '抵抗疫情，我们都是第一责任人',
+                                desc: '抵抗疫情, 我们都是第一责任人',
                                 // dataUrl: '',
                                 // type: 'link',
                                 imgUrl: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/demo/img/share.jpg',
                                 link: location.href.split('#')[0]
                             };
+
+                            console.log(shareInfo);
 
                             // 分享到朋友圈
                             wx.onMenuShareTimeline({
@@ -214,7 +216,7 @@ export default {
                     console.log(error);
                 });
             } else {
-                this.$toast.fail('您今日的答题次数已用完');
+                this.$toast.fail('请分享赢得更多答题机会');
             }
         }
     },
