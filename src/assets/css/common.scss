@@ -1,0 +1,94 @@
+body {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #333;
+    font-size: 12px;
+    box-sizing: border-box;
+    background-color: #e1d2bd;
+    max-width: 750px;
+    overflow: auto;
+    margin: 0 auto;
+    padding: 0;
+}
+
+h2 {
+    margin: 0;
+}
+
+i {
+    font-style: normal;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@for $i from 1 to 10 {
+    $i: $i * 5;
+    .margin-top-#{$i} {
+        margin-top: #{$i}px;
+    }
+    .margin-left-#{$i} {
+        margin-left: #{$i}px;
+    }
+    .margin-bottom-#{$i} {
+        margin-bottom: #{$i}px;
+    }
+    .margin-right-#{$i} {
+        margin-right: #{$i}px;
+    }
+    .margin-#{$i} {
+        margin: #{$i}px;
+    }
+    .padding-top-#{$i} {
+        padding-top: #{$i}px;
+    }
+    .padding-left-#{$i} {
+        padding-left: #{$i}px;
+    }
+    .padding-bottom-#{$i} {
+        padding-bottom: #{$i}px;
+    }
+    .padding-right-#{$i} {
+        padding-right: #{$i}px;
+    }
+    .padding-#{$i} {
+        padding: #{$i}px;
+    }
+}
+
+@font-face {
+    font-family: 'fontstyle1';
+    src: url('../font/联盟起艺卢帅正锐黑体.ttf');
+}
+
+// @font-face {
+//     font-family: 'fontstyle2';
+//     src: url('../font/SourceHanSansCN-Bold.otf');
+// }
+a.link {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    &:active {
+        background-color: #eee;
+    }
+    &.back {
+        width: 17.5rem;
+        height: 5rem;
+        background-image: url('../images/back.png');
+    }
+}
