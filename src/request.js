@@ -14,7 +14,7 @@ let request = axios.create({
     timeout: 10000,
     withCredentials: true,
     // baseURL: 'http://gtmcmp.signalfire.net.cn'
-    baseURL: 'http://gfwp.gac-toyota.com.cn'
+    baseURL: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp'
 })
 request.interceptors.request.use(
     config => {

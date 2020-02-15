@@ -6,6 +6,7 @@ import 'vant/lib/icon/local.css';
 import './assets/css/common.scss';
 import router from './router/index'
 import store from './store/index'
+import component from './components/index'
 import { apiHost, fileUrl, request } from './request'
 import {
     Lazyload,
@@ -22,9 +23,19 @@ Vue.prototype.$fileUrl = fileUrl;
 Vue.prototype.$request = request;
 // 音频播放
 Vue.prototype.playAudio = (audio) => {
-    let playAudio = document.getElementById('setAudioPlay');
-    playAudio.setAttribute('src', audio);
-    playAudio.play();
+    if (audio == 'error') {
+        let playAudio = document.getElementById('errorAudio');
+        playAudio.play();
+    } else if (audio == 'correct') {
+        let playAudio = document.getElementById('correctAudio');
+        playAudio.play();
+    } else if (audio == 'luckAudio') {
+        let playAudio = document.getElementById('luckAudio');
+        playAudio.play();
+    } else if (audio == 'turnAudio') {
+        let playAudio = document.getElementById('turnAudio');
+        playAudio.play();
+    }
 }
 Vue.config.productionTip = false
 
@@ -35,6 +46,12 @@ Vue.use(Lazyload, {
     try: 1
 });
 Vue.use(Toast);
+
+// 注册全局组件
+Object.keys(component).forEach(key => {
+    var name = key.replace(/(\w)/, (v) => v.toUpperCase()); // 首字母大写
+    Vue.component(`${name}`, component[key]);
+});
 
 new Vue({
     el: '#app',

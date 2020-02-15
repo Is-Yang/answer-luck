@@ -1,73 +1,83 @@
 <template>
-    <div class="index-wrapper">
-        <div class="visit">
-            <a href="javascript:;" class="link answer" @click="toAnswer">
-                <span>进入答题</span>
-                <i v-if="luckNum > 0">({{luckNum}})</i>
-                <van-icon v-else name="plus" size="2rem" class="add-num" />
-            </a>
+    <div>
+        <div class="index-wrapper" v-show="showPage">
+            <div class="visit">
+                <a v-if="luckNum > 0" href="javascript:;" class="link answer" @click="toAnswer">
+                    <span style="padding-left: 1rem;">进入答题</span>
+                </a>
 
-            <div>
-                <a href="javascript:;" class="link rule" @click="rulesShow = true"></a>
-                <a href="javascript:;" class="link prize" @click="prizeHandle"></a>
-            </div>
-        </div>
+                <a v-else href="javascript:;" class="link answer" @click="getShareGains">
+                    <span>分享赢答题机会</span>
+                    <!-- <van-icon name="plus" size="2rem" class="add-num" /> -->
+                </a>
 
-        <!-- 互动规则 -->
-        <van-overlay :show="rulesShow" @click="rulesShow = false">
-            <div class="dialog-wrap flex-center">
-                <div class="content rules-wrap popup2">
-                    <h2>互动规则</h2>
-                    <div class="rules-info">
-                        <p>1、本次活动仅限GTMC员工参与；</p>
-                        <p>2、每人每天有2次答题机会，分享朋友圈可额外获得1次机会，每天上限3次；</p>
-                        <p>3、每次答题需要回答8道题，全部答对后可以参与抽奖； </p>
-                        <p>4、为避免接触，防疫激励金将在活动结束后统一以微信红包形式发放；</p>
-                        <p>5、活动时间：2020年2月17~23日；</p>
-                        <p>*解释权归GTMCfamily所有</p>
-                    </div>
-                    <a href="javascript:;" class="link to-answer" @click="toAnswer"></a>
+                <div>
+                    <a href="javascript:;" class="link rule" @click="rulesShow = true"></a>
+                    <a href="javascript:;" class="link prize" @click="prizeHandle"></a>
                 </div>
-                <van-icon name="clear" class="dialog-close" @click="rulesShow = false" />
-            </div>
-        </van-overlay>
 
-        <!-- 奖品 -->
-        <div class="van-overlay" v-show="prizeShow">
-            <div class="dialog-wrap flex-center">
-                <div class="content" :class="(myPrize.data && myPrize.data.length == 0) ? 'popup2' : ''">
-                    <h2>我的奖品</h2>
-                    <div v-if="myPrize.data && myPrize.data.length > 0">
-                        <div class="money">总奖金：{{myPrize.total}}元</div> 
-                        <div class="product-show">
-                            <van-row type="flex" justify="space-between" align="center"
-                                v-for="(item, index) in myPrize.data" :key="index">
-                                <van-col>
-                                    <van-image width="6rem" height="6rem" fit="cover" 
-                                        :src="imageUrl + item.image"/>
-                                    <span>{{item.name}}</span>
-                                </van-col>
-                                <van-col>
-                                    {{item.price}}元
-                                </van-col>
-                            </van-row>
+                <div v-if="luckNum > 0" class="answer-num">今日剩余{{luckNum}}次答题机会</div>
+            </div>
+
+            <!-- 互动规则 -->
+            <van-overlay :show="rulesShow">
+                <div class="dialog-wrap flex-center">
+                    <div class="content rules-wrap popup2">
+                        <h2>互动规则</h2>
+                        <div class="rules-info">
+                            <p>1、本次活动仅限GTMC员工参与；</p>
+                            <p>2、每人每天有2次答题机会，分享朋友圈可额外获得1次机会，每天上限3次；</p>
+                            <p>3、每次答题需要回答8道题，全部答对后可以参与抽奖； </p>
+                            <p>4、为避免接触，防疫激励金将在活动结束后统一以微信红包形式发放；</p>
+                            <p>5、活动时间：2020年2月17~23日；</p>
+                            <p>*解释权归GTMCfamily所有</p>
+                        </div>
+                        <a href="javascript:;" class="link to-answer" @click="toAnswer"></a>
+                    </div>
+                    <van-icon name="clear" class="dialog-close" @click="rulesShow = false" />
+                </div>
+            </van-overlay>
+
+            <!-- 奖品 -->
+            <div class="van-overlay" v-show="prizeShow">
+                <div class="dialog-wrap flex-center">
+                    <div class="content" :class="(myPrize.data && myPrize.data.length == 0) ? 'popup2' : ''">
+                        <h2>我的奖品</h2>
+                        <div v-if="myPrize.data && myPrize.data.length > 0">
+                            <div class="money">总奖金：{{myPrize.total}}元</div> 
+                            <div class="product-show">
+                                <van-row type="flex" justify="space-between" align="center"
+                                    v-for="(item, index) in myPrize.data" :key="index">
+                                    <van-col>
+                                        <van-image width="6rem" height="6rem" fit="cover" 
+                                            :src="imageUrl + item.image"/>
+                                        <span>{{item.name}}</span>
+                                    </van-col>
+                                    <van-col>
+                                        {{item.price}}元
+                                    </van-col>
+                                </van-row>
+                            </div>
+                        </div>
+                        <div v-else class="not-prize">
+                            暂未获得奖品<br />
+                            快去答题吧
                         </div>
                     </div>
-                    <div v-else class="not-prize">
-                        暂未获得奖品<br />
-                        快去答题吧
-                    </div>
+                    <van-icon name="clear" class="dialog-close" @click="prizeShow = false" />
                 </div>
-                <van-icon name="clear" class="dialog-close" @click="prizeShow = false" />
             </div>
         </div>
+        <Loading />
     </div>
 </template>
 
 <script>
+import wx from 'weixin-js-sdk'
 export default {
     data() {
         return {
+            showPage: false,
             rulesShow: false,
             prizeShow: false,
             luckNum: 0,
@@ -79,6 +89,12 @@ export default {
         }
     },
     created() {
+        this.$eventHub.$emit('loading', true);
+        setTimeout(() => {
+            this.$eventHub.$emit('loading', false);
+            this.$store.dispatch('saveUser', true);
+            this.showPage = true;
+        }, 3000);
         this.getLuckNum();
     },
     methods: {
@@ -103,6 +119,7 @@ export default {
         //     }
         // },
         getLuckNum() {
+            // this.$eventHub.$emit('loading', false);
             this.$request.get(this.$host + 'getLuckDrawNum').then((res) => {
                 this.luckNum = res.data;
             }).catch((error) => {
@@ -122,10 +139,58 @@ export default {
         // 分享
         sharePage() {
             return new Promise((resolve, reject) => {
-                let url = window.location.href;
-                this.$request.get('http://gfwp.gac-toyota.com.cn/GTMCfamily/index.php/campaign/api2/getjssdk?url=' + url).then((res) => {
+                let url = 'http://gfwp.gac-toyota.com.cn/GTMCfamily/index.php/campaign/api2/getjssdk?url=' + window.location.href;
+                this.$request.get(url).then((res) => {
                     if (res.status == 100) {
-                        resolve(100);
+                        this.$toast('请点击右上角去分享');
+
+                        wx.config({
+                            debug: false,
+                            appId: res.appId,
+                            timestamp: res.timeStamp, 
+                            nonceStr: res.nonceStr,
+                            signature: res.signature,
+                            jsApiList: ["onMenuShareTimeline", "onMenuShareAppMessage"] 
+                        });　
+
+                        wx.ready(() => {
+                            let shareInfo = {
+                                title: 'G司返岗小测试',
+                                desc: '抵抗疫情，我们都是第一责任人',
+                                // dataUrl: '',
+                                // type: 'link',
+                                imgUrl: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/demo/img/share.jpg',
+                                link: location.href.split('#')[0]
+                            };
+
+                            // 分享到朋友圈
+                            wx.onMenuShareTimeline({
+                                title: shareInfo.title,
+                                link: shareInfo.link,
+                                imgUrl: shareInfo.imgUrl,
+                                success: ()=> { 
+                                    resolve(100);
+                                },
+                                cancel: ()=> { 
+                                    console.log('分享失败')
+                                }
+                            });
+                            // 分享给朋友
+                            wx.onMenuShareAppMessage({
+                                title: shareInfo.title,
+                                link: shareInfo.link,
+                                imgUrl: shareInfo.imgUrl,
+                                desc: shareInfo.desc,
+                                success: ()=> { 
+                                    resolve(100);
+                                },
+                                cancel: ()=> { 
+                                    console.log('分享失败')
+                                }
+                            });
+                        }); 
+                    } else {
+                        this.$toast.fail('服务器繁忙，请稍后再试');
                     }
                 }).catch((error) => {
                         reject(error);
@@ -149,7 +214,7 @@ export default {
                     console.log(error);
                 });
             } else {
-                this.getShareGains();
+                this.$toast.fail('您今日的答题次数已用完');
             }
         }
     },
@@ -174,19 +239,14 @@ export default {
         .answer {
             width: 18rem;
             height: 6.3rem;
-            line-height: 6.3rem;
             background-image: url('../assets/images/answer.png');
-            font-family: 'fontstyle1';
+            font-family: fontstyle1;
             color: #E6CCB5;
             font-size: 2rem;
             display: flex;
             margin: 0 auto;
             justify-content: center;
             align-items: center;
-
-            span {
-                padding-left: 1rem;
-            }
 
             i {
                 font-size: 1.4rem;
@@ -199,16 +259,25 @@ export default {
         }
 
         .rule {
-            width: 9rem;
+            width: 8.7rem;
             height: 4rem;
             background-image: url('../assets/images/rule.png');
         }
         .prize {
-            margin-left: 1.2rem;
-            width: 7.8rem;
+            margin-left: 0.6rem;
+            width: 8.7rem;
             height: 4rem;
             background-image: url('../assets/images/prize.png');
         }
+    }
+
+    .answer-num {
+        font-size: 1.4rem;
+        font-family: fontstyle1;
+        color: #962e21;
+        width: 18rem;
+        text-align: right;
+        margin: 0 auto;
     }
 
     .to-answer {
@@ -233,7 +302,7 @@ export default {
             background: url('../assets/images/popup1.png');
             background-size: 100% 100%;
             background-repeat: no-repeat;
-            font-family: 'fontstyle1';
+            font-family: fontstyle1;
 
             h2 {
                 font-size: 2.5rem;
@@ -274,7 +343,7 @@ export default {
         -webkit-overflow-scrolling: touch;
         font-size: 1.6rem;
         color: #852619;
-        font-family: 'fontstyle1';
+        font-family: fontstyle1;
 
         .van-row {
             padding: 0.5rem 1.2rem 0.5rem 0.5rem;

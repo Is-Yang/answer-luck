@@ -8,7 +8,7 @@
         <div class="lucky">
             <img :style="{transform: rotateDeg}"
                 :src="turntableImage" alt="幸运大转盘" class="turntable" />
-            <img :src="pointImage" alt="指针" class="pointer" @click="luckyHandle" />
+            <img src="../assets/images/point.png" alt="指针" class="pointer" @click="luckyHandle" />
         </div>
 
         <div class="bottom-back">
@@ -42,9 +42,7 @@ export default {
             deg: 0, // 度数
             rewardCount: 1,
             turntableImage: this.$fileUrl + require('../assets/images/turntable.png'),
-            pointImage: this.$fileUrl + require('../assets/images/point.png'),
-            luckAudio: this.$fileUrl + require('../assets/audio/luck.mp3'),
-            turnAudio: this.$fileUrl + require('../assets/audio/turn.mp3')
+            // pointImage: this.$fileUrl + require('../assets/images/point.png'),
         }
     },
     methods: {
@@ -67,7 +65,7 @@ export default {
         async luckyHandle() {
             let result = await this.getLottery();
             let data = result.data;
-            this.playAudio(this.turnAudio);
+            this.playAudio('turnAudio');
             
             if (!this.isAllowClick) return;
             this.isAllowClick = false;
@@ -135,8 +133,8 @@ export default {
                 this.flag = true;
 
                 setTimeout(() => {
+                    this.playAudio('luckAudio');
                     this.prizeShow = true;
-                    this.playAudio(this.luckAudio);
                 }, 3600);
             }
         },
@@ -169,7 +167,7 @@ export default {
         margin-top: 3rem;
         font-size: 1.8rem;
         text-align: center;
-        font-family: 'fontstyle1';
+        font-family: fontstyle1;
         color: #972D23;
         letter-spacing: 1px;
 
@@ -220,7 +218,7 @@ export default {
             background: url('../assets/images/popup1.png');
             background-size: 100% 100%;
             background-repeat: no-repeat;
-            font-family: 'fontstyle1';
+            font-family: fontstyle1;
 
             img {
                 width: 70%;

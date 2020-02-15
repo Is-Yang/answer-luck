@@ -64,22 +64,28 @@ export default {
             correctValue: '',  // 正确答案
             errorValue: '',  // 错误答案
             // 问题列表
-            questionList: [],
+            questionList: [
+                {
+                    value: 'A',
+                    options: ['a', '2']
+                }, {
+                    value: 'B'
+                }
+            ],
             // 用户选择的答案
             answerArr: [],
             qNum: 0 ,// 题目数量
-            errorAudio: this.$fileUrl + require('../assets/audio/error.mp3'),
-            correctAudio: this.$fileUrl + require('../assets/audio/correct.mp3')
         }
     },
     created() {
-        console.log(this.errorAudio)
         this.queryData();
     },
     methods: {
         queryData() {
             this.$request.get(this.$host + 'getQuestions').then((res) => {
-                this.questionList = res.data;
+                if (res.data) {
+                    this.questionList = res.data;
+                }
             }).catch((error) => {
                 console.log(error);
             });
@@ -90,13 +96,13 @@ export default {
             this.isClick = false;
             let answer = this.questionList[this.current].answer;
             if (value == answer) {
+                this.playAudio('correct');
                 this.errorValue = '';
                 this.correctValue = answer;
-                this.playAudio(this.correctAudio);
             } else {
+                this.playAudio('error');
                 this.correctValue = answer;
                 this.errorValue = value;
-                this.playAudio(this.errorAudio);
             }
             this.$forceUpdate();
 
@@ -105,8 +111,23 @@ export default {
                 value
             }
         },
+        beginAnswer() {
+            this.$request.get(this.$host + 'beginAnswer').then((res) => {
+                this.reload();
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
         aginHandle() {
-            this.reload();
+            this.$request.get(this.$host + 'getLuckDrawNum').then((res) => {
+                if (res.data > 0) {
+                    this.beginAnswer();
+                } else {
+                    this.$toast.fail('请分享赢得更多答题机会');
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
         },
         backHandle() {
             this.$router.push('/index');
@@ -182,7 +203,7 @@ export default {
         margin-bottom: 5rem;
 
         .title {
-            font-family: 'fontstyle1';
+            font-family: fontstyle1;
             font-size: 1.8rem;
             line-height: 1.6;
             color: #152147;
@@ -263,7 +284,7 @@ export default {
         height: 6.3rem;
         line-height: 6.3rem;
         background-image: url('../assets/images/answer.png');
-        font-family: 'fontstyle1';
+        font-family: fontstyle1;
         color: #E6CCB5;
         font-size: 2.4rem;
 
@@ -298,7 +319,7 @@ export default {
             background-repeat: no-repeat;
             text-align: center;
             border-radius: 4px;
-            font-family: 'fontstyle1';
+            font-family: fontstyle1;
             box-sizing: border-box;
 
             p {
