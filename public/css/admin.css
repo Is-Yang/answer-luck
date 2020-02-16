@@ -1,0 +1,28 @@
+#app .title {
+	padding: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+
+.el-aside {
+	background-color: #D3DCE6;
+	color: #333;
+}
+
+.el-main {
+	background-color: #E9EEF3;
+	color: #333;
+}
+
+.el-input {
+	width: 145px;
+}
+
+.el-form-item{
+	margin-bottom: 0px;
+}
+
+body>.el-container {
+	margin-bottom: 40px;
+}

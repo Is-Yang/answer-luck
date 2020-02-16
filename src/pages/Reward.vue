@@ -1,7 +1,7 @@
 <template>
     <div class="reward-wrapper">
         <div class="title">
-            <span>恭喜您！</span>
+            <span>恭喜您!</span>
             <p>获得了{{rewardCount}}次抽奖机会！</p>
         </div>
 
@@ -52,8 +52,6 @@ export default {
                 this.$request.get(this.$host + 'lottery').then((res) => {
                     if (res.code == "011502") {
                         this.$toast.fail('请分享赢得更多答题机会');
-                        this.isAllowClick = false;
-                        this.rewardCount = 0;
                         return;
                     } else {
                         resolve(res);
@@ -64,14 +62,14 @@ export default {
             })
         },
         async luckyHandle() {
-            let result = await this.getLottery();
-            let data = result.data;
-            this.playAudio(this.turnAudio);
-            
             if (!this.isAllowClick) return;
             this.isAllowClick = false;
             
             this.rewardCount = 0;
+            this.playAudio(this.turnAudio);
+
+            let result = await this.getLottery();
+            let data = result.data;
 
             this.deg += 360 * this.count;
             this.rotateDeg = "rotate(" + this.deg + "deg)";
@@ -165,7 +163,7 @@ export default {
     }
 
     .title {
-        margin-top: 3rem;
+        margin-top: 2rem;
         font-size: 1.8rem;
         text-align: center;
         font-family: fontstyle1;
@@ -209,7 +207,7 @@ export default {
         flex-direction: column;
 
         .content {
-            width: 80%;
+            width: 78%;
             min-height: 15rem;
             padding: 4rem 2rem;
             background-color: #fff;
@@ -247,7 +245,7 @@ export default {
 
     .bottom-back {
         position: absolute;
-        bottom: 7%;
+        bottom: 5%;
         left: 50%;
         transform: translateX(-50%);
         text-align: center;

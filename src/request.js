@@ -3,10 +3,12 @@ import {
     Toast
 } from 'vant';
 
+// 测试
 // const apiHost = "http://gtmcmp.signalfire.net.cn/GTMCfamily/camp/antincp/";
+// 正式
 const apiHost = "http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp/api/";
+// 文件路径
 const fileUrl = "http://gtmccdn.istarcore.com/GTMCfamily/camp/antincp";
-// const fileUrl = '';
 
 let request = axios.create({
     headers: {
@@ -14,7 +16,9 @@ let request = axios.create({
     },
     timeout: 10000,
     withCredentials: true,
-    // baseURL: 'http://gtmcmp.signalfire.net.cn'
+    // 测试
+    // baseURL: 'http://gtmcmp.signalfire.net.cn',
+    // 正式
     baseURL: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp'
 })
 request.interceptors.request.use(

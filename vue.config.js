@@ -17,15 +17,15 @@ module.exports = {
     // 关闭eslint
     lintOnSave: false,
     // 静态资源访问路径
-    publicPath: "http://gtmccdn.istarcore.com/GTMCfamily/camp/antincp",
-    chainWebpack: config => {
-        // 清除css，js版本号
-        config.output.filename('js/[name].js').end();
-        config.output.chunkFilename('js/[name].js').end();
-        // 为生产环境修改配置...
-        config.plugin('extract-css').tap(args => [{
-            filename: `css/[name].css`,
-            chunkFilename: `css/[name].css`
-        }])
-    },
+    publicPath: "http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp",
+    // chainWebpack: config => {
+    //     // 清除css，js版本号
+    //     config.output.filename('js/[name].js').end();
+    //     config.output.chunkFilename('js/[name].js').end();
+    //     // 为生产环境修改配置...
+    //     config.plugin('extract-css').tap(args => [{
+    //         filename: `css/[name].css`,
+    //         chunkFilename: `css/[name].css`
+    //     }])
+    // },
 }

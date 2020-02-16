@@ -83,7 +83,7 @@ export default {
             prizeShow: false,
             luckNum: 0,
             isShare: 0, // 是否已分享
-            imageUrl: 'http://gtmccdn.istarcore.com/GTMCfamily/camp/antincp',
+            imageUrl: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp',
             myPrize: {
                 data: [],
                 total: 0

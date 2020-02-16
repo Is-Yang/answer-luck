@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="./css/admin.css">
+</head>
+
+<body>
+    <div id="app">
+        <el-container>
+            <el-aside style="padding: 10px;width: 250px;">
+                <div class="title">
+                    <span>中奖设置</span>
+                </div>
+                <el-form :model="couponForm" :rules="rules" ref="couponForm" label-width="80px" class="demo-couponForm">
+                    <el-form-item label="中奖率：" prop="k">
+                        <el-input size="medium" placeholder="请输入中奖率" v-model="couponForm.zjjl">
+                            <template slot="append">%</template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="口罩基金">
+                        <span style="margin-left: 50px;">{{couponForm.yiFaKouZhaoJiJinTotalNum}} / {{couponForm.jiHuaKouZhaoJiJinTotalNum}}</span>
+                    </el-form-item>
+                    <el-form-item>
+                        <span slot="label">{{couponForm.yiFaKouZhaoJiJinNum}} / </span>
+                        <el-input size="medium" v-model="couponForm.kouZhaoJiJinNum" :min="1" :max="10"></el-input-number>
+                    </el-form-item>
+
+                    <el-form-item label="洗手基金">
+                        <span style="margin-left: 50px;"> {{couponForm.yiFaXiShouJiJinTotalNum}} / {{couponForm.jiHuaXiShouJiJinTotalNum}}</span>
+                    </el-form-item>
+                    <el-form-item>
+                        <span slot="label">{{couponForm.yiFaXiShouJiJinNum}}  / </span>
+                        <el-input size="medium" v-model="couponForm.xiShouJiJinNum" :min="1" :max="10"></el-input-number>
+                    </el-form-item>
+
+                    <el-form-item label="学习基金">
+                        <span style="margin-left: 50px;"> {{couponForm.yiFaXueXiJiJinTotalNum}} / {{couponForm.jiHuaXueXiJiJinTotalNum}}</span>
+                    </el-form-item>
+                    <el-form-item>
+                        <span slot="label">{{couponForm.yiFaXueXiJiJinNum}} / </span>
+                        <el-input size="medium" v-model="couponForm.xueXiJiJinNum" :min="1" :max="10"></el-input-number>
+                    </el-form-item>
+
+                    <el-form-item label="少出门">
+                        <span style="margin-left: 60px;"> - </span>
+                    </el-form-item>
+                    <el-form-item lable="&nbsp;&nbsp;&nbsp;">
+                        <span style="margin-left: 60px;">{{couponForm.yiFaShaChuMen}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="多通风">
+                        <span style="margin-left: 60px;"> - </span>
+                    </el-form-item>
+                    <el-form-item lable="&nbsp;&nbsp;&nbsp;">
+                        <span style="margin-left: 60px;">{{couponForm.yiFaDuoTongFeng}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="保持锻炼">
+                        <span style="margin-left: 60px;"> - </span>
+                    </el-form-item>
+                    <el-form-item lable="&nbsp;&nbsp;&nbsp;">
+                        <span style="margin-left: 60px;">{{couponForm.yiFaBaoChiDuanLian}}</span>
+                    </el-form-item>
+
+                    <el-form-item style="margin-top: 10px;">
+                        <el-button type="primary" @click="submitForm('couponForm')">保存</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-aside>
+            <el-main>
+                <template>
+						<div class="title">
+							<span>中奖清单</span></br>
+							<el-button type="primary" style="float:right;margin-bottom: 10px;" @click="exportTable()">导出</el-button>
+						</div>
+						<el-table :data="list" border style="width: 100%" height="510px"
+						 @selection-change="handleSelectionChange">
+							<el-table-column prop="prizeDate" label="时间">
+							</el-table-column>
+							<el-table-column prop="gtmcUid" label="工号">
+							</el-table-column>
+							<el-table-column prop="gtmcName" label="姓名">
+							</el-table-column>
+							<el-table-column prop="prizeName" label="中奖">
+							</el-table-column>
+							<el-table-column prop="price" label="金额">
+							</el-table-column>
+						</el-table>
+
+						<el-pagination background 
+							layout="prev, pager, next, sizes, total, jumper" 
+							:page-sizes="[50,100,150]"
+							:page-size="page.size"
+						 :total="page.total" 
+						 @current-change="handleCurrentChange" 
+						 @size-change="handleSizeChange">
+						</el-pagination>
+					</template> </el-main>
+        </el-container>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.9.0/qs.js"></script>
+    <script>
+        // const apiHost = "http://gtmcmp.signalfire.net.cn/GTMCfamily/camp/antincp/";
+        const apiHost = "http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp/api/";
+        var vm = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    age: '',
+                    loading: false,
+                    couponForm: {},
+                    //规则
+                    rules: {},
+                    list: [],
+                    page: {
+                        current: 1,
+                        size: 20,
+                        total: 0
+                    },
+                };
+            },
+            created() {
+                this.initForm();
+                this.getlist();
+            },
+            methods: {
+                initForm() {
+                    axios.get(apiHost + 'getCoupon').then(data => {
+                        this.couponForm = data.data.data;
+                    }).catch(err => {
+                        console.error(err)
+                        this.$alert('请求超时，刷新重试！')
+                    })
+                },
+                // 导出
+                exportTable() {
+                    window.location.href = apiHost + 'exportPrizeRecordInfo';
+                },
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {
+                            let params = {
+                                jsonData: JSON.stringify(this.couponForm)
+                            }
+                            axios({
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                },
+                                method: 'post',
+                                url: apiHost + 'saveCouponInfo',
+                                data: Qs.stringify(params)
+                            }).then(res => {
+                                if (res.data.code == 0) {
+                                    this.$alert('保存成功！')
+                                } else {
+                                    this.$alert('保存失败！')
+                                }
+                            }).catch(err => {
+                                console.error(err)
+                                this.$alert('请求超时，刷新重试！')
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                getlist() {
+                    axios.get(apiHost + 'findPrizeRecordByPage', {
+                        params: {
+                            currPage: this.page.current,
+                            pageSize: 20
+                        }
+                    }).then(res => {
+                        if (res.data && res.data.data) {
+                            let result = res.data.data;
+                            this.page = result.page;
+                            this.list = result.data;
+                        }
+                    }).catch(err => {
+                        console.error(err)
+                        this.$alert('请求超时，刷新重试！')
+                    })
+                },
+                handleCurrentChange(cpage) {
+                    this.page.current = cpage;
+                    this.getlist();
+                },
+                handleSizeChange(psize) {
+                    this.page.size = psize;
+                    this.getlist();
+                },
+                handleSelectionChange(val) {
+                    console.log(val)
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
