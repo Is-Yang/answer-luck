@@ -42,7 +42,7 @@
             <div class="van-overlay" v-show="prizeShow">
                 <div class="dialog-wrap flex-center">
                     <div class="content" :class="(myPrize.data && myPrize.data.length == 0) ? 'popup2' : ''">
-                        <h2>我的奖品</h2>
+                        <h2>防疫基金</h2>
                         <div v-if="myPrize.data && myPrize.data.length > 0">
                             <div class="money">总奖金：{{myPrize.total}}元</div> 
                             <div class="product-show">
@@ -83,7 +83,7 @@ export default {
             prizeShow: false,
             luckNum: 0,
             isShare: 0, // 是否已分享
-            imageUrl: this.$fileUrl,
+            imageUrl: 'http://gtmccdn.istarcore.com/GTMCfamily/camp/antincp',
             myPrize: {
                 data: [],
                 total: 0
@@ -165,7 +165,7 @@ export default {
                                 desc: '抵抗疫情, 我们都是第一责任人',
                                 // dataUrl: '',
                                 // type: 'link',
-                                imgUrl: this.$fileUrl + require('../assets/images/shareImg.jpg'),
+                                imgUrl: require('../assets/images/shareImg.jpg'),
                                 link: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp/#/index'
                             };
 
@@ -335,6 +335,7 @@ export default {
                 text-align: center;
                 line-height: 1;
                 margin-bottom: 3.5rem;
+                letter-spacing: 5px;
             }
         }
 

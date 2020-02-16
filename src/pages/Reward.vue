@@ -41,9 +41,9 @@ export default {
             rotateDeg: 0, // 将要旋转的角度
             deg: 0, // 度数
             rewardCount: 1,
-            turntableImage: this.$fileUrl + require('../assets/images/turntable.png'),
-            luckAudio: this.$fileUrl + require('../assets/audio/luck.mp3'),
-            turnAudio: this.$fileUrl + require('../assets/audio/turn.mp3')
+            turntableImage: require('../assets/images/turntable.png'),
+            luckAudio: require('../assets/audio/luck.mp3'),
+            turnAudio: require('../assets/audio/turn.mp3')
         }
     },
     methods: {
@@ -84,7 +84,7 @@ export default {
                             this.deg = this.deg + 90;
                         }
                         this.deg = this.deg + 270;
-                        this.prizeImage = this.$fileUrl + require('../assets/images/kz.png');
+                        this.prizeImage = require('../assets/images/kz.png');
                         break;
                     case '少出门':
                         // 如果执行了转盘
@@ -92,7 +92,7 @@ export default {
                             this.deg = this.deg + 150;
                         }
                         this.deg = this.deg + 210;
-                        this.prizeImage = this.$fileUrl + require('../assets/images/scm.png');
+                        this.prizeImage = require('../assets/images/scm.png');
                         break;
                     case '多通风':
                         // 如果执行了转盘
@@ -100,7 +100,7 @@ export default {
                             this.deg = this.deg + 210;
                         }
                         this.deg = this.deg + 150;
-                        this.prizeImage = this.$fileUrl + require('../assets/images/tf.png');
+                        this.prizeImage = require('../assets/images/tf.png');
                         break;
                     case '保持锻炼':
                         // 如果执行了转盘
@@ -108,7 +108,7 @@ export default {
                             this.deg = this.deg + 270;
                         }
                         this.deg = this.deg + 90;
-                        this.prizeImage = this.$fileUrl + require('../assets/images/dl.png');
+                        this.prizeImage = require('../assets/images/dl.png');
                         break;
                     case '学习基金':
                         // 如果执行了转盘
@@ -116,7 +116,7 @@ export default {
                             this.deg = this.deg + 330;
                         }
                         this.deg = this.deg + 30;
-                        this.prizeImage = this.$fileUrl + require('../assets/images/xx.png');
+                        this.prizeImage = require('../assets/images/xx.png');
                         break;
                     case '洗手基金':
                         // 如果执行了转盘
@@ -124,7 +124,7 @@ export default {
                             this.deg = this.deg + 30;
                         }
                         this.deg = this.deg + 330;
-                        this.prizeImage = this.$fileUrl + require('../assets/images/xs.png');
+                        this.prizeImage = require('../assets/images/xs.png');
                         break;
                     default:
                         break;

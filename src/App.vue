@@ -29,7 +29,7 @@ export default {
   },
   data () {
     return {
-      musicSrc: this.$fileUrl + require('./assets/audio/piano.mp3'),
+      musicSrc: require('./assets/audio/piano.mp3'),
       isPlay: true, // 是否播放
       isView: true,
       domAudio: null,

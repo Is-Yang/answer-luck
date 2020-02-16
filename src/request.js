@@ -5,7 +5,7 @@ import {
 
 // const apiHost = "http://gtmcmp.signalfire.net.cn/GTMCfamily/camp/antincp/";
 const apiHost = "http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp/api/";
-const fileUrl = "http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp";
+const fileUrl = "http://gtmccdn.istarcore.com/GTMCfamily/camp/antincp";
 // const fileUrl = '';
 
 let request = axios.create({
