@@ -6,8 +6,7 @@ module.exports = {
             '/': {
                 // target: 'http://gtmcmp.signalfire.net.cn',
                 target: 'http://gfwp.gac-toyota.com.cn',
-                changeOrigin: true,
-                ws: false
+                changeOrigin: true
             }
         },
         overlay: {
@@ -16,5 +15,5 @@ module.exports = {
         }
     },
     lintOnSave: false,
-    // publicPath: "././",
+    // publicPath: "./",
 }

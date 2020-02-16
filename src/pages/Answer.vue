@@ -113,6 +113,7 @@ export default {
                 value
             }
         },
+        // 开始答题
         beginAnswer() {
             this.$request.get(this.$host + 'beginAnswer').then((res) => {
                 this.reload();
@@ -120,12 +121,20 @@ export default {
                 console.log(error);
             });
         },
+        // 获取答题机会
         aginHandle() {
             this.$request.get(this.$host + 'getLuckDrawNum').then((res) => {
-                if (res.data > 0) {
-                    this.beginAnswer();
-                } else {
-                    this.$toast.fail('请分享赢得更多答题机会');
+                if(res.data) {
+                    const { num, shared } = res.data;
+                    if (num > 0) {
+                        this.beginAnswer();
+                    } else {
+                        if (shared == 0) {
+                            this.$toast.fail('请分享赢得更多答题机会');
+                        } else {
+                            this.$toast.fail('今天答题次数已用完');
+                        }
+                    }
                 }
             }).catch((error) => {
                 console.log(error);

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <div class="index-wrapper" v-show="showPage">
             <div class="visit">
                 <a v-if="luckNum > 0" href="javascript:;" class="link answer" @click="toAnswer">
@@ -7,16 +7,16 @@
                 </a>
 
                 <a v-else href="javascript:;" class="link answer" @click="getShareGains">
-                    <span>分享赢答题机会</span>
-                    <!-- <van-icon name="plus" size="2rem" class="add-num" /> -->
+                    <span v-if="isShare == 0">分享赢答题机会</span>
+                    <span v-else class="not-num">今天答题次数已用完</span>
                 </a>
 
                 <div>
                     <a href="javascript:;" class="link rule" @click="rulesShow = true"></a>
                     <a href="javascript:;" class="link prize" @click="prizeHandle"></a>
                 </div>
-
                 <div v-if="luckNum > 0" class="answer-num">今日剩余{{luckNum}}次答题机会</div>
+
             </div>
 
             <!-- 互动规则 -->
@@ -75,17 +75,20 @@
 <script>
 import wx from 'weixin-js-sdk'
 export default {
+    inject: ['reload'],
     data() {
         return {
             showPage: false,
             rulesShow: false,
             prizeShow: false,
             luckNum: 0,
+            isShare: 0, // 是否已分享
             imageUrl: this.$fileUrl,
             myPrize: {
                 data: [],
                 total: 0
-            }
+            },
+            timer: null
         }
     },
     created() {
@@ -95,12 +98,17 @@ export default {
         }
         this.init();
         
+        // 判断资源文件是否加载完成
         this.$eventHub.$emit('loading', true);
-        setTimeout(() => {
-            this.$eventHub.$emit('loading', false);
-            this.$store.dispatch('saveUser', true);
-            this.showPage = true;
-        }, 3000);
+        this.timer = setInterval(() => {
+            console.log(document.readyState);
+            if (document.readyState == 'complete') {
+                this.$eventHub.$emit('loading', false);
+                this.showPage = true;
+                clearInterval(this.timer);
+            }
+        }, 1000);
+        // 获取答题次数
         this.getLuckNum();
     },
     methods: {
@@ -110,33 +118,17 @@ export default {
             if(result == 100) {
                 this.$request.get(this.$host + 'shareGains').then((res) => {
                     console.log(res);
+                    this.getLuckNum();
                 })
             }
         },
-        // async initWelcome() {
-        //     return this.$request.get(this.$host + 'welcome').then((res) => {
-        //         return res.data;
-        //     })
-        // },
-        // async getLuckNum() {
-        //     let result = await this.initWelcome();
-        //     if (result) {
-        //         this.$request.get(this.$host + 'getLuckDrawNum').then((res) => {
-        //             this.luckNum = res.data;
-        //             // if (res.data > 0) {
-        //             //     this.$router.push('/answer');
-        //             // } else {
-        //             //     this.$toast.fail('您今日的答题机会已达到上限');
-        //             // }
-        //         }).catch((error) => {
-        //             console.log(error);
-        //         });
-        //     }
-        // },
+        // 获取抽奖机会
         getLuckNum() {
-            // this.$eventHub.$emit('loading', false);
             this.$request.get(this.$host + 'getLuckDrawNum').then((res) => {
-                this.luckNum = res.data;
+                if(res.data) {
+                    this.luckNum = res.data.num;
+                    this.isShare = res.data.shared;
+                }
             }).catch((error) => {
                 console.log(error);
             });
@@ -225,6 +217,7 @@ export default {
         },
         // 获取分享机会
         getShareGains() {
+            if (this.isShare == 1) return;
             this.$toast('请点击右上角去分享');
         },
         toAnswer() {
@@ -235,10 +228,17 @@ export default {
                     console.log(error);
                 });
             } else {
-                this.$toast.fail('请分享赢得更多答题机会');
+                if (this.isShare == 0) {
+                    this.$toast.fail('请分享赢得更多答题机会');
+                } else {
+                    this.$toast.fail('今天答题次数已用完');
+                }
             }
         }
     },
+    beforeDestroy() {
+        clearInterval(this.timer);
+    }
 }
 </script>
 
@@ -252,22 +252,27 @@ export default {
     position: relative;
     .visit {
         position: absolute;
-        top: 72%;
+        top: 71%;
         width: 100%;
         text-align: center;
         z-index: 1;
 
         .answer {
             width: 18rem;
-            height: 6.3rem;
+            height: 5.8rem;
             background-image: url('../assets/images/answer.png');
+            background-size: 100% 100%;
             font-family: fontstyle1;
             color: #E6CCB5;
-            font-size: 2rem;
             display: flex;
-            margin: 0 auto;
+            margin: 0 auto 0.3rem;
             justify-content: center;
             align-items: center;
+            font-size: 1.8rem;
+
+            .not-num {
+                font-size: 1.6rem;
+            }
 
             i {
                 font-size: 1.4rem;
@@ -293,7 +298,7 @@ export default {
     }
 
     .answer-num {
-        font-size: 1.4rem;
+       font-size: 1.4rem;
         font-family: fontstyle1;
         color: #962e21;
         width: 18rem;
