@@ -98,11 +98,11 @@ export default {
             this.isClick = false;
             let answer = this.questionList[this.current].answer;
             if (value == answer) {
-                this.playAudio(this.correctAudio);
+                this.playAudio(this.correctAudio, true);
                 this.errorValue = '';
                 this.correctValue = answer;
             } else {
-                this.playAudio(this.errorAudio);
+                this.playAudio(this.errorAudio, true);
                 this.correctValue = answer;
                 this.errorValue = value;
             }

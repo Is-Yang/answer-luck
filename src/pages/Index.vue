@@ -96,8 +96,6 @@ export default {
         if(link !== window.location.href){
             window.location.href = link;
         }
-        this.init();
-        
         // 判断资源文件是否加载完成
         this.$eventHub.$emit('loading', true);
         this.timer = setInterval(() => {
@@ -108,6 +106,9 @@ export default {
                 clearInterval(this.timer);
             }
         }, 1000);
+
+        this.init();
+
         // 获取答题次数
         this.getLuckNum();
     },
@@ -244,7 +245,6 @@ export default {
 
 <style lang="scss">
 .index-wrapper {
-    background: url('../assets/images/indexBg.jpeg');
     height: 100vh;
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -260,7 +260,6 @@ export default {
         .answer {
             width: 18rem;
             height: 5.8rem;
-            background-image: url('../assets/images/answer.png');
             background-size: 100% 100%;
             font-family: fontstyle1;
             color: #E6CCB5;
@@ -287,18 +286,16 @@ export default {
         .rule {
             width: 8.7rem;
             height: 4rem;
-            background-image: url('../assets/images/rule.png');
         }
         .prize {
             margin-left: 0.6rem;
             width: 8.7rem;
             height: 4rem;
-            background-image: url('../assets/images/prize.png');
         }
     }
 
     .answer-num {
-       font-size: 1.4rem;
+        font-size: 1.4rem;
         font-family: fontstyle1;
         color: #962e21;
         width: 18rem;

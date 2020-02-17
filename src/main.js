@@ -22,10 +22,14 @@ Vue.prototype.$fileUrl = fileUrl;
 // 请求
 Vue.prototype.$request = request;
 // 音频播放
-Vue.prototype.playAudio = (audio) => {
+Vue.prototype.playAudio = (audio, type) => {
     let playAudio = document.getElementById('setAudioPlay');
     playAudio.setAttribute('src', audio);
-    playAudio.play();
+    if (type) {
+        playAudio.play();
+    } else {
+        playAudio.pause();
+    }
 }
 Vue.config.productionTip = false
 

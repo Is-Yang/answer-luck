@@ -5,7 +5,7 @@ module.exports = {
         proxy: {
             '/': {
                 // target: 'http://gtmcmp.signalfire.net.cn',
-                target: 'http://gfwp.gac-toyota.com.cn',
+                target: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp',
                 changeOrigin: true
             }
         },

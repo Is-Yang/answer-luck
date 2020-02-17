@@ -21,7 +21,7 @@
                 <div class="content">
                     <img :src="prizeImage" />
                 </div>
-                <van-icon name="clear" class="dialog-close" @click="prizeShow = false" />
+                <van-icon name="clear" class="dialog-close" @click="closeShow" />
             </div>
         </div>
 
@@ -49,6 +49,11 @@ export default {
     methods: {
         getLottery() {
             return new Promise((resolve, reject) => {
+                // resolve({
+                //     data: {
+                //         name: '口罩基金'
+                //     }
+                // })
                 this.$request.get(this.$host + 'lottery').then((res) => {
                     if (res.code == "011502") {
                         this.$toast.fail('请分享赢得更多答题机会');
@@ -64,12 +69,14 @@ export default {
         async luckyHandle() {
             if (!this.isAllowClick) return;
             this.isAllowClick = false;
-            
+            // 机会次数
             this.rewardCount = 0;
-            this.playAudio(this.turnAudio);
 
             let result = await this.getLottery();
             let data = result.data;
+
+            // 播放音乐
+            this.playAudio(this.turnAudio, true);
 
             this.deg += 360 * this.count;
             this.rotateDeg = "rotate(" + this.deg + "deg)";
@@ -132,10 +139,14 @@ export default {
                 this.flag = true;
 
                 setTimeout(() => {
-                    this.playAudio(this.luckAudio);
+                    this.playAudio(this.luckAudio, true);
                     this.prizeShow = true;
                 }, 3600);
             }
+        },
+        closeShow() {
+            this.playAudio(this.luckAudio, false);
+            this.prizeShow = false;
         },
         backHandle() {
             this.$router.push('/index');
