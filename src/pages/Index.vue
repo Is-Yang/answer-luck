@@ -1,6 +1,6 @@
 <template>
     <div >
-        <div class="index-wrapper" v-show="showPage">
+        <div class="index-wrapper">
             <div class="visit">
                 <a v-if="luckNum > 0" href="javascript:;" class="link answer" @click="toAnswer">
                     <span style="padding-left: 1rem;">进入答题</span>
@@ -26,8 +26,9 @@
                         <h2>互动规则</h2>
                         <div class="rules-info">
                             <p>1、本次活动仅限GTMC员工参与；</p>
-                            <p>2、每人每天有2次答题机会，分享朋友圈可额外获得1次机会，每天上限3次；</p>
-                            <p>3、每次答题需要回答8道题，全部答对后可以参与抽奖； </p>
+                            <!-- <p>2、每人每天有2次答题机会，分享朋友圈可额外获得1次机会，每天上限3次；</p> -->
+                            <p>2、每人每天有3次答题机会；</p>
+                            <p>3、每次答题需要回答8道题，全部答对后可以参与抽奖；</p>
                             <p>4、为避免接触，防疫激励金将在活动结束后统一以微信红包形式发放；</p>
                             <p>5、活动时间：2020年2月17~23日；</p>
                             <p>*解释权归GTMCfamily所有</p>
@@ -39,7 +40,7 @@
             </van-overlay>
 
             <!-- 奖品 -->
-            <div class="van-overlay" v-show="prizeShow">
+            <div class="van-overlay" v-if="prizeShow">
                 <div class="dialog-wrap flex-center">
                     <div class="content" :class="(myPrize.data && myPrize.data.length == 0) ? 'popup2' : ''">
                         <h2>防疫基金</h2>
@@ -68,7 +69,7 @@
                 </div>
             </div>
         </div>
-        <Loading />
+        <!-- <Loading /> -->
     </div>
 </template>
 
@@ -78,12 +79,12 @@ export default {
     inject: ['reload'],
     data() {
         return {
-            showPage: false,
+            // showPage: false,
             rulesShow: false,
             prizeShow: false,
             luckNum: 0,
-            isShare: 0, // 是否已分享
-            imageUrl: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp',
+            isShare: 1, // 是否已分享
+            imageUrl: '',
             myPrize: {
                 data: [],
                 total: 0
@@ -96,16 +97,24 @@ export default {
         if(link !== window.location.href){
             window.location.href = link;
         }
+
+        let host = window.location.host;
+        if (host == 'gfwp.gac-toyota.com.cn') {
+            this.imageUrl = 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/covid-19';
+        }
+
         // 判断资源文件是否加载完成
-        this.$eventHub.$emit('loading', true);
-        this.timer = setInterval(() => {
-            console.log(document.readyState);
-            if (document.readyState == 'complete') {
-                this.$eventHub.$emit('loading', false);
-                this.showPage = true;
-                clearInterval(this.timer);
-            }
-        }, 1000);
+        // this.$eventHub.$emit('loading', true);
+        // this.timer = setInterval(() => {
+        //     console.log(document.readyState);
+        //     if (document.readyState == 'complete') {
+        //         this.$eventHub.$emit('loading', false);
+        //         this.$nextTick(() => {
+        //             this.showPage = true;
+        //         })
+        //         clearInterval(this.timer);
+        //     }
+        // }, 1000);
 
         this.init();
 
@@ -167,7 +176,7 @@ export default {
                                 // dataUrl: '',
                                 // type: 'link',
                                 imgUrl: require('../assets/images/shareImg.jpg'),
-                                link: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp/#/index'
+                                link: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/covid-19/#/index'
                             };
 
                             console.log(shareInfo);
@@ -246,6 +255,7 @@ export default {
 <style lang="scss">
 .index-wrapper {
     height: 100vh;
+    background-image: url('../assets/images/indexBg.jpeg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: top center;
@@ -260,6 +270,7 @@ export default {
         .answer {
             width: 18rem;
             height: 5.8rem;
+            background-image: url('../assets/images/answer.png');
             background-size: 100% 100%;
             font-family: fontstyle1;
             color: #E6CCB5;
@@ -286,11 +297,13 @@ export default {
         .rule {
             width: 8.7rem;
             height: 4rem;
+            background-image: url('../assets/images/rule.png');
         }
         .prize {
             margin-left: 0.6rem;
             width: 8.7rem;
             height: 4rem;
+            background-image: url('../assets/images/prize.png');
         }
     }
 

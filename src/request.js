@@ -3,12 +3,19 @@ import {
     Toast
 } from 'vant';
 
-// 测试
-// const apiHost = "http://gtmcmp.signalfire.net.cn/GTMCfamily/camp/antincp/";
-// 正式
-const apiHost = "http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp/api/";
-// 文件路径
-const fileUrl = "http://gtmccdn.istarcore.com/GTMCfamily/camp/antincp";
+
+let apiHost = '';
+let fileUrl = ''; // 文件路径
+let prod = window.location.host == 'gfwp.gac-toyota.com.cn' ? true : false;
+if (prod) {
+    // 正式
+    apiHost = 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/covid-19/api/';
+    fileUrl = 'http://gtmccdn.istarcore.com/GTMCfamily/camp/covid-19/';
+} else {
+    // 测试
+    apiHost = "http://gtmcmp.signalfire.net.cn/GTMCfamily/camp/antincp/";
+    fileUrl = 'http://gtmcmp.signalfire.net.cn/';
+}
 
 let request = axios.create({
     headers: {
@@ -16,10 +23,7 @@ let request = axios.create({
     },
     timeout: 10000,
     withCredentials: true,
-    // 测试
-    // baseURL: 'http://gtmcmp.signalfire.net.cn',
-    // 正式
-    baseURL: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp'
+    baseURL: prod ? 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/covid-19' : 'http://gtmcmp.signalfire.net.cn'
 })
 request.interceptors.request.use(
     config => {

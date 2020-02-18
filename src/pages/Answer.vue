@@ -75,8 +75,8 @@ export default {
             // 用户选择的答案
             answerArr: [],
             qNum: 0 ,// 题目数量
-            errorAudio: require('../assets/audio/error.mp3'),
-            correctAudio: require('../assets/audio/correct.mp3'),
+            errorAudio: 'media/error.mp3',
+            correctAudio: 'media/correct.mp3',
         }
     },
     created() {

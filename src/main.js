@@ -9,7 +9,6 @@ import store from './store/index'
 import component from './components/index'
 import { apiHost, fileUrl, request } from './request'
 import {
-    Lazyload,
     Toast
 } from 'vant';
 
@@ -24,7 +23,7 @@ Vue.prototype.$request = request;
 // 音频播放
 Vue.prototype.playAudio = (audio, type) => {
     let playAudio = document.getElementById('setAudioPlay');
-    playAudio.setAttribute('src', audio);
+    playAudio.setAttribute('src', fileUrl + audio);
     if (type) {
         playAudio.play();
     } else {
@@ -34,11 +33,6 @@ Vue.prototype.playAudio = (audio, type) => {
 Vue.config.productionTip = false
 
 Vue.use(Vant);
-Vue.use(Lazyload, {
-    lazyComponent: true,
-    //   loading: require('./assets/img/loading.jpg'),
-    try: 1
-});
 Vue.use(Toast);
 
 // 注册全局组件

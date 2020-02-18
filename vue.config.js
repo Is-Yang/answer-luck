@@ -5,7 +5,7 @@ module.exports = {
         proxy: {
             '/': {
                 // target: 'http://gtmcmp.signalfire.net.cn',
-                target: 'http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp',
+                target: ' http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/covid-19/',
                 changeOrigin: true
             }
         },
@@ -17,7 +17,7 @@ module.exports = {
     // 关闭eslint
     lintOnSave: false,
     // 静态资源访问路径
-    publicPath: "http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/antincp",
+    publicPath: "http://gfwp.gac-toyota.com.cn/GTMCfamily/camp/covid-19",
     // chainWebpack: config => {
     //     // 清除css，js版本号
     //     config.output.filename('js/[name].js').end();

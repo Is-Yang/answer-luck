@@ -42,8 +42,8 @@ export default {
             deg: 0, // 度数
             rewardCount: 1,
             turntableImage: require('../assets/images/turntable.png'),
-            luckAudio: require('../assets/audio/luck.mp3'),
-            turnAudio: require('../assets/audio/turn.mp3')
+            luckAudio: 'media/luck.mp3',
+            turnAudio: 'media/turn.mp3'
         }
     },
     methods: {
@@ -56,7 +56,7 @@ export default {
                 // })
                 this.$request.get(this.$host + 'lottery').then((res) => {
                     if (res.code == "011502") {
-                        this.$toast.fail('请分享赢得更多答题机会');
+                        // this.$toast.fail('请分享赢得更多答题机会');
                         return;
                     } else {
                         resolve(res);
