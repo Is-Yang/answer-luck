@@ -2,20 +2,21 @@
     <div >
         <div class="index-wrapper">
             <div class="visit">
-                <a v-if="luckNum > 0" href="javascript:;" class="link answer" @click="toAnswer">
+                <a href="javascript:;" class="link answer">活动已结束</a>
+                <!-- <a v-if="luckNum > 0" href="javascript:;" class="link answer" @click="toAnswer">
                     <span style="padding-left: 1rem;">进入答题</span>
                 </a>
 
                 <a v-else href="javascript:;" class="link answer" @click="getShareGains">
                     <span v-if="isShare == 0">分享赢答题机会</span>
                     <span v-else class="not-num">今天答题次数已用完</span>
-                </a>
+                </a> -->
 
                 <div>
                     <a href="javascript:;" class="link rule" @click="rulesShow = true"></a>
                     <a href="javascript:;" class="link prize" @click="prizeHandle"></a>
                 </div>
-                <div v-if="luckNum > 0" class="answer-num">今日剩余{{luckNum}}次答题机会</div>
+                <!-- <div v-if="luckNum > 0" class="answer-num">今日剩余{{luckNum}}次答题机会</div> -->
 
             </div>
 
@@ -29,11 +30,11 @@
                             <!-- <p>2、每人每天有2次答题机会，分享朋友圈可额外获得1次机会，每天上限3次；</p> -->
                             <p>2、每人每天有3次答题机会；</p>
                             <p>3、每次答题需要回答8道题，全部答对后可以参与抽奖；</p>
-                            <p>4、为避免接触，防疫激励金将在活动结束后统一以微信红包形式发放；</p>
-                            <p>5、活动时间：2020年2月17~23日；</p>
+                            <p>4、为避免接触，防疫基金将在活动结束后通过GTMCfamily统一发放；</p>
+                            <p>5、活动时间：2020年2月18~23日；</p>
                             <p>*解释权归GTMCfamily所有</p>
                         </div>
-                        <a href="javascript:;" class="link to-answer" @click="toAnswer"></a>
+                        <!-- <a href="javascript:;" class="link to-answer" @click="toAnswer"></a> -->
                     </div>
                     <van-icon name="clear" class="dialog-close" @click="rulesShow = false" />
                 </div>
